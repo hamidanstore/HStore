@@ -1,0 +1,692 @@
+/* =================================================================== */
+/* VARIABEL GLOBAL & DASAR                        */
+/* =================================================================== */
+
+/* :root digunakan untuk menyimpan variabel yang bisa dipakai ulang, seperti kode warna */
+:root {
+    --primary-color: #008000;   /* Warna utama (misal: tombol, harga), sekarang hijau tua */
+    --secondary-color: #F0E68C; /* Warna pendukung (misal: border, tombol kuantitas), sekarang krem kekuningan */
+    --background-color: #F8F9FA; /* Warna latar belakang website */
+    --text-color: #333333;       /* Warna teks utama */
+    --white-color: #FFFFFF;      /* Warna putih */
+    --font-family: 'Poppins', sans-serif; /* Jenis font utama */
+    --border-radius: 8px;        /* Radius lengkungan sudut */
+}
+
+/* Reset dasar untuk menghapus margin & padding bawaan browser */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style dasar untuk seluruh halaman (body) */
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* .container digunakan untuk membungkus konten agar rapi di tengah dan tidak terlalu lebar */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+/* =================================================================== */
+/* HEADER & NAVIGASI                             */
+/* =================================================================== */
+
+/* Style untuk bagian header (paling atas) */
+header {
+    background-color: var(--white-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Memberi bayangan tipis */
+    padding: 15px 0;
+    position: sticky; /* Header akan tetap di atas saat di-scroll */
+    top: 0;
+    z-index: 100;
+}
+
+/* Mengatur layout item di dalam header (logo & menu) */
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style untuk logo */
+.logo {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+/* Menyembunyikan navigasi utama di tampilan mobile (akan muncul saat di-klik) */
+nav#main-nav {
+    display: none;
+}
+
+/* Style untuk tombol menu (ikon hamburger) */
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Style untuk garis-garis di dalam ikon hamburger */
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color);
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+
+
+/* =================================================================== */
+/* ELEMEN UMUM (TOMBOL, DLL)                   */
+/* =================================================================== */
+
+/* Style dasar untuk semua tombol dengan class .btn */
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+/* Efek saat kursor mouse di atas tombol */
+.btn:hover {
+    opacity: 0.8;
+}
+
+/* Style untuk tombol yang lebarnya penuh */
+.btn-full {
+    width: 100%;
+    text-align: center;
+}
+
+
+/* =================================================================== */
+/* BAGIAN HALAMAN UTAMA                        */
+/* =================================================================== */
+
+/* Style untuk section Hero (banner besar di halaman utama) */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.1em;
+    max-width: 600px;
+    margin: 0 auto 25px auto;
+}
+
+/* Style untuk bagian daftar produk (di halaman utama dan halaman produk) */
+.products-section {
+    padding: 50px 0;
+}
+
+.products-section h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* Layout grid untuk menampilkan produk-produk */
+.product-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 kolom di mobile */
+    gap: 30px;
+}
+
+/* Style untuk setiap kartu produk */
+.product-card {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-decoration: none;
+    color: var(--text-color);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Efek terangkat saat disentuh kursor */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /* Gambar akan terpotong rapi, tidak gepeng */
+}
+
+.product-card h3 {
+    font-size: 1.2em;
+    margin: 15px;
+}
+
+.product-card p {
+    margin: 0 15px 15px 15px;
+    font-size: 0.9em;
+}
+
+.product-card .price {
+    display: block;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 15px;
+    font-size: 1.1em;
+}
+
+
+/* =================================================================== */
+/* HALAMAN DETAIL PRODUK                         */
+/* =================================================================== */
+
+/* Style umum untuk konten di halaman selain home */
+.page-content {
+    padding: 40px 0;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.2em;
+    margin-bottom: 15px;
+}
+
+/* Layout utama halaman detail produk (gambar di kiri, info di kanan) */
+.product-detail-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 0;
+}
+
+/* Style untuk kolom informasi produk */
+.product-info-column h1 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+.product-info-column .price {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Margin bawah untuk setiap bagian di kolom info */
+.variants-section,
+.quantity-section,
+.description-section,
+.specs-section {
+    margin-bottom: 25px;
+}
+
+/* Judul kecil (Varian, Jumlah, Deskripsi) */
+.variants-section h3,
+.quantity-section h3,
+.description-section h3,
+.specs-section h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+/* Wadah untuk tombol-tombol varian */
+.variant-options {
+    display: flex;
+    flex-wrap: wrap; /* Tombol akan turun ke bawah jika tidak muat */
+    /* PERUBAHAN SESUAI GAMBAR ANDA: 20px jarak vertikal, 10px jarak horizontal */
+    gap: 20px 10px; 
+}
+
+/* Style untuk label yang membungkus tombol radio varian */
+.variant-options label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Menyembunyikan tombol radio asli */
+.variant-options input[type="radio"] {
+    display: none;
+}
+
+/* Tampilan tombol varian kustom */
+.variant-options span {
+    padding: 8px 15px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+/* Tampilan tombol varian saat dipilih */
+.variant-options input[type="radio"]:checked+span {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+}
+
+/* Wadah untuk input jumlah (tombol - dan +) */
+.quantity-input {
+    display: flex;
+    align-items: center;
+}
+
+/* Kotak angka untuk jumlah */
+.quantity-input input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid var(--secondary-color);
+    padding: 8px;
+    border-radius: var(--border-radius);
+    -moz-appearance: textfield; /* Menghilangkan panah di Firefox */
+}
+.quantity-input input::-webkit-outer-spin-button,
+.quantity-input input::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Menghilangkan panah di Chrome/Safari */
+    margin: 0;
+}
+
+/* Tombol - dan + */
+.quantity-input .qty-btn {
+    background-color: var(--secondary-color);
+    border: none;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Daftar spesifikasi produk */
+.specs-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.specs-section li {
+    padding: 5px 0;
+}
+
+
+/* =================================================================== */
+/* SLIDESHOW & CHECKOUT                          */
+/* =================================================================== */
+
+/* Wadah utama slideshow galeri produk */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    aspect-ratio: 1 / 1;
+}
+
+/* Setiap gambar slide (disembunyikan secara default) */
+.product-slide {
+    display: none;
+    height: 100%;
+}
+
+.product-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+/* Tombol panah kiri dan kanan pada slideshow */
+.slideshow-container .prev,
+.slideshow-container .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.slideshow-container .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.slideshow-container .prev:hover,
+.slideshow-container .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Efek transisi fade saat gambar berganti */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+@keyframes fade {
+    from { opacity: .4 }
+    to { opacity: 1 }
+}
+
+/* Wadah utama halaman checkout */
+.checkout-container {
+    padding: 40px 0;
+}
+
+/* Kotak-kotak di halaman checkout (ringkasan, data pemesan) */
+.order-summary,
+.customer-data,
+.payment-summary {
+    background-color: var(--white-color);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+}
+
+/* Judul di dalam kotak checkout */
+.checkout-container h3 {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Kartu item produk di ringkasan pesanan */
+.item-card {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.item-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+.item-details { flex-grow: 1; }
+.item-details h4 { margin-bottom: 5px; }
+.item-details p { font-size: 0.9em; }
+.item-total p { font-weight: 700; font-size: 1.1em; }
+
+/* Grup form (label dan input) */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+/* Style untuk semua input dan textarea di dalam form */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family);
+    font-size: 1em;
+    background-color: var(--white-color);
+    resize: vertical;
+}
+
+/* Baris di ringkasan pembayaran */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.summary-row.total {
+    font-weight: 700;
+    font-size: 1.2em;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+
+/* =================================================================== */
+/* FOOTER & HALAMAN KONTAK                       */
+/* =================================================================== */
+
+/* Style untuk footer (bagian paling bawah) */
+footer {
+    background-color: var(--text-color);
+    color: var(--white-color);
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 50px;
+}
+footer h3 { margin-bottom: 10px; }
+footer p { opacity: 0.8; }
+
+/* Bagian di halaman kontak */
+.contact-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.contact-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Ikon-ikon media sosial */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+.social-icons a {
+    color: var(--primary-color);
+    font-size: 3em;
+    transition: color 0.3s, transform 0.3s;
+}
+.social-icons a:hover {
+    opacity: 0.8;
+    transform: translateY(-5px);
+}
+
+/* Wadah untuk peta Google Maps yang disematkan */
+.location-map-iframe {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    border: 3px solid var(--secondary-color);
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+/* Peta iframe di dalamnya agar bisa di-touch dan responsif */
+.location-map-iframe iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
+
+/* =================================================================== */
+/* PENYESUAIAN UNTUK LAYAR BESAR (DESKTOP)                 */
+/* =================================================================== */
+
+/* Aturan ini hanya berlaku jika lebar layar 768px atau lebih */
+@media (min-width: 768px) {
+    /* Sembunyikan tombol hamburger, tampilkan menu utama */
+    .menu-toggle {
+        display: none;
+    }
+    nav#main-nav {
+        display: flex;
+        gap: 25px;
+    }
+    nav#main-nav a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+    }
+
+    /* Ubah grid produk menjadi 3 kolom */
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* Ubah layout detail produk menjadi 2 kolom */
+    .product-detail-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Styling untuk Halaman Legal (Syarat & Ketentuan, dll) */
+.legal-page {
+    max-width: 800px;
+    text-align: left;
+}
+.legal-page h2 {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.legal-page p, .legal-page ul {
+    margin-bottom: 15px;
+}
+.legal-page ul {
+    padding-left: 20px;
+}
+
+/* Styling untuk Link di Footer */
+.footer-links {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+.footer-links a {
+    color: var(--white-color);
+    text-decoration: none;
+    opacity: 0.8;
+    margin: 0 10px;
+    transition: opacity 0.3s;
+}
+.footer-links a:hover {
+    opacity: 1;
+}
+
+/* =================================================================== */
+/* HALAMAN BLOG & ARTIKEL                        */
+/* =================================================================== */
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+.article-card {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.article-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 25px;
+}
+
+.article-meta {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.article-content h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.article-content h3 a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: color 0.3s;
+}
+
+.article-content h3 a:hover {
+    color: var(--primary-color);
+}
+
+.btn-read-more {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Halaman Artikel Tunggal */
+.article-page {
+    max-width: 800px;
+}
+.article-title {
+    font-size: 2.5em;
+    text-align: left;
+}
+.article-page .article-meta {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.article-image {
+    width: 100%;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+}
+.article-body h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+.article-body p, .article-body ul {
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+.article-body ul {
+    padding-left: 20px;
+}
+
+/* Memberi jarak atas pada tombol kedua di section hero */
+.hero .btn + .btn {
+    margin-top: 20px;
+}
+
