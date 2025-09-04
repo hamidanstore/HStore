@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rincian Pesanan - HStore</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo"><strong>HamidanStore</strong></a>
+            <nav id="main-nav">
+                <a href="/">Home</a>
+                <a href="/products.html">Produk</a>
+                <a href="/about.html">Tentang Kami</a>
+                <a href="/contact.html">Kontak</a>
+            </nav>
+            <button id="menu-toggle" class="menu-toggle"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <main>
+        <div class="container checkout-container">
+            <h1 class="page-title">Rincian Pesanan</h1>
+            <div class="order-summary">
+                <h3>Produk yang Dipesan</h3>
+                <div id="item-card-container">
+                    <p>Memuat keranjang...</p>
+                </div>
+            </div>
+            <div class="customer-data">
+                <h3>Data Pemesan</h3>
+                <div class="form-group">
+                    <label for="nama_lengkap">Nama Lengkap*</label>
+                    <input type="text" id="nama_lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label for="nomor_whatsapp">Nomor WhatsApp*</label>
+                    <input type="tel" id="nomor_whatsapp" placeholder="+628123456789" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="alamat_pengiriman">Alamat Lengkap Pengiriman*</label>
+                    <textarea id="alamat_pengiriman" rows="4" placeholder="Contoh: Jl. Pahlawan No. 123, Kel. Suka Maju, Kec. Suka Jadi, Kota Bahagia 12345" required></textarea>
+                </div>
+                </div>
+            <div class="payment-summary">
+                <h3>Total Pembayaran</h3>
+                <div id="payment-summary-container">
+                    </div>
+                <button type="button" id="whatsapp-order-button" class="btn btn-full">ORDER VIA WHATSAPP</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <h3>HStore</h3>
+            <p>&copy; 2025 HStore</p>
+          <div class="footer-links">
+            <a href="/terms.html">Syarat & Ketentuan</a>
+            <a href="/privacy.html">Kebijakan Privasi</a>
+        </div>
+        </div>
+
+        </div>
+    </footer>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>

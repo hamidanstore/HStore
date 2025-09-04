@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Ulasan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #333;
+            margin: 0; padding: 0; display: flex; justify-content: center;
+            align-items: flex-start; min-height: 100vh;
+        }
+        .reviews-wrapper { max-width: 700px; width: 100%; padding: 20px 0; box-sizing: border-box; }
+        .overall-rating-summary {
+            background-color: #ffffff; border-radius: 12px; padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); margin-bottom: 20px; text-align: center;
+        }
+        .overall-rating-value { font-size: 48px; font-weight: 700; color: #1c1e21; margin-bottom: 5px; }
+        .overall-star-rating { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; }
+        .overall-star-rating svg { width: 30px; height: 30px; color: #fbbc05; }
+        .overall-review-count {
+            font-size: 15px; color: #606770; margin-bottom: 15px; display: flex;
+            align-items: center; justify-content: center; gap: 5px;
+        }
+        .overall-review-count span { font-weight: 500; color: #1c1e21; }
+        .google-icon-small { height: 18px; } .google-icon-small path { fill: #4285F4; }
+        .review-us-button {
+            background-color: #4285f4; color: white; border: none; border-radius: 25px;
+            padding: 12px 25px; font-size: 16px; font-weight: 500; cursor: pointer;
+            text-decoration: none; display: inline-block; transition: background-color 0.2s ease;
+        }
+        .review-us-button:hover { background-color: #357ae8; }
+        .reviews-list-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+        .review-card {
+            background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px;
+            padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .review-header { display: flex; align-items: center; margin-bottom: 12px; }
+        .author-initial, .author-photo {
+            width: 48px; height: 48px; border-radius: 50%; background-color: #e0e0e0; color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+            font-weight: 500; margin-right: 16px; overflow: hidden;
+        }
+        .author-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .author-details { flex-grow: 1; }
+        .author-details .name { font-size: 16px; font-weight: 700; color: #1c1e21; }
+        .author-details .date { font-size: 13px; color: #606770; }
+        .source-icon svg { width: 28px; height: 28px; }
+        .star-rating { display: flex; gap: 4px; margin-bottom: 12px; }
+        .star-rating svg { width: 20px; height: 20px; color: #fbbc05; }
+        .review-text { font-size: 15px; line-height: 1.6; white-space: pre-wrap; color: #333; }
+        .review-media { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; }
+        .review-media img, .review-media video { max-width: 100%; height: auto; max-height: 200px; border-radius: 8px; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <div class="reviews-wrapper">
+        <div class="overall-rating-summary">
+            <div id="overall-rating-value" class="overall-rating-value">...</div>
+            <div id="overall-star-rating" class="overall-star-rating"></div>
+            <div id="overall-review-count" class="overall-review-count">
+                <span id="review-count-text">...</span>
+            </div>
+            <a href="#" id="review-us-button" target="_blank" class="review-us-button">Beri ulasan untuk kami di Google</a>
+        </div>
+        <div id="reviews-list-container" class="reviews-list-container"></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ========================================================================
+        // === DATA ULASAN STATIS (EDIT, TAMBAH, ATAU HAPUS ULASAN DI SINI) ===
+        // ========================================================================
+        const googleBusinessUrl = "https://share.google/R7lycvV06TbKTVOci"; // <-- GANTI DENGAN URL GOOGLE BUSINESS ANDA
+        
+        const reviewsData = [
+            {
+                author: "Eko Wijoyo",
+                rating: 5,
+                review: "Nemuin tempat ini karena paling deket dari rumah. Ternyata oke juga. Ayamnya bisa milih sendiri, terus langsung diproses di depan kita jadi transparan. Lebih higienis. Recommended! 👍",
+                date: "2 September 2025",
+                photo_url: "https://lh3.googleusercontent.com/geougc-cs/AB3l90C0jgJIAHK619HQWcm6I4ADTf6v9jbPP6bA2v9jQ301uwnnEmJoSbB-Nq1hfUuEfyZ5wpk1H9C9mL9RbK-K-b5rZ7_HWyG0p-w4CI5JlClYiEUkavpBGwkx7ETCibfY-dShr_dI0OZ-wFpd=s172-p-k-rw",
+                video_url: ""
+            },
+            {
+                author: "Siti Aminah",
+                rating: 5,
+                review: "Baru pertama kali coba beli di sini karena rekomendasi tetangga. Ternyata beneran bagus! Ayamnya fresh banget, keliatan dari warnanya. Pas dimasak dagingnya empuk dan manis. Bersih banget pula, jadi kita tinggal cuci sebentar langsung masak. Nanti Pasti beli di sini lagi.Baru pertama kali coba beli di sini karena rekomendasi tetangga. Ternyata beneran bagus! Ayamnya fresh banget, keliatan dari warnanya.",
+                date: "1 September 2025",
+                photo_url: "",
+                video_url: ""
+            },
+            {
+                author: "Kartika Putri",
+                rating: 5,
+                review: "Udah langganan dari lama di sini. Ayamnya disini emang paling seger. Minta dipotong buat opor atau buat digoreng biasa, potongannya pas dan bersih. Orang2 nya juga ramah banget. Pokoknya top deh!",
+                date: "3 September 2025",
+                photo_url: "",
+                video_url: ""
+            },
+            {
+                author: "Hendra Gunawan",
+                rating: 5,
+                review: "Puas banget belanja di sini. Selain ayamnya yang fresh, kita bisa request potongannya mau berapa bagian, semua dilayanin dengan baik. Prosesnya cepat dan bersih.",
+                date: "3 September 2025",
+                photo_url: "https://lh3.googleusercontent.com/geougc-cs/AB3l90CbAQclFX8QBLJKgkLu_xL8aAIjwdz9fnGYjbZpD9_-nzNd01vY2AaxH-6KQTWqRiKRYnOGhk1KbiFWY1_-60A05PQbhDL964_vW1Qv-27CJRUQp7WWtrWtPv0CWHxiEZMx-iDd9BH45YOl=s172-p-k-rw",
+                video_url: ""
+            },
+            {
+                author: "Surya Nugroho",
+                rating: 5,
+                review: "Praktis banget beli ayam di sini. Tinggal dateng, pilih, langsung dipotongin dan dibersihin. Nggak pake lama, sat set sat set beres. Kualitas ayamnya juga oke, dagingnya padet. Cocok buat yang males ribet.",
+                date: "1 September 2025",
+                photo_url: "https://lh3.googleusercontent.com/geougc-cs/AB3l90Cnp5j7wl4uNJ4y6oAYkyHoMcGiVRep2k3-nYAKw-5JkuuuzMap5VW9WJF04mJJHTe8OJLr7eFQyE3qaySB8OMuUR3Oxx0OfphiQPfazLKEOpyNiPBpgULiR0VVIyLrJlEht3yfYswjPDQA=s141-p-k-rw",
+                video_url: ""
+            },
+            {
+                author: "Canil Sss",
+                rating: 4,
+                review: "Pelayanan nya bagus .agak cekatan meski ada kendala sedikit pas proses tapi saya senang pemiliknya sopan .. Saya kira sikap lah yng utma",
+                date: "3 September 2025",
+                photo_url: "",
+                video_url: ""
+            }
+        ];
+        // ========================================================================
+        // === AKHIR DARI BAGIAN DATA ULASAN ===
+        // ========================================================================
+
+
+        // ----- KODE DI BAWAH INI TIDAK PERLU DIUBAH -----
+        
+        const reviewsListContainer = document.getElementById('reviews-list-container');
+        const overallRatingValue = document.getElementById('overall-rating-value');
+        const overallStarRating = document.getElementById('overall-star-rating');
+        const reviewCountText = document.getElementById('review-count-text');
+        const reviewUsButton = document.getElementById('review-us-button');
+
+        reviewUsButton.href = googleBusinessUrl; // Set link tombol
+        
+        // Fungsi untuk membuat bintang rating
+        function createStarRating(rating) {
+            let starsHtml = '';
+            const starSvg = `<svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`;
+            for (let i = 0; i < 5; i++) {
+                starsHtml += i < rating ? starSvg : '';
+            }
+            return starsHtml;
+        }
+
+        // Fungsi untuk mendapatkan warna random untuk inisial
+        function getAuthorColor(name) {
+            const colors = ['#5e81ac', '#bf616a', '#d08770', '#ebcb8b', '#a3be8c'];
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) { hash = name.charCodeAt(i) + ((hash << 5) - hash); }
+            return colors[Math.abs(hash % colors.length)];
+        }
+        
+        const googleIconSmall = `<svg class="google-icon-small" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.45,11.2h-9.9v2.6h5.8c-0.4,2.2-2.5,3.8-5.8,3.8c-3.5,0-6.3-2.8-6.3-6.3s2.8-6.3,6.3-6.3 c1.6,0,3.1,0.6,4.2,1.7l2-2C16.2,2.3,14,1.5,11.55,1.5C6.35,1.5,2.15,5.7,2.15,10.9s4.2,9.4,9.4,9.4c5.4,0,9.1-3.8,9.1-9.2 C21.65,11.7,21.55,11.4,21.45,11.2z"/></svg>`;
+
+        // Logika untuk menampilkan data statis
+        function displayReviews() {
+            // Hitung rata-rata rating
+            let totalRating = 0;
+            reviewsData.forEach(review => totalRating += review.rating);
+            const averageRating = (totalRating / reviewsData.length).toFixed(1);
+
+            // Update bagian ringkasan rating
+            overallRatingValue.textContent = averageRating;
+            overallStarRating.innerHTML = createStarRating(Math.round(averageRating));
+            reviewCountText.innerHTML = `<span>${reviewsData.length} reviews</span> on ${googleIconSmall}`;
+
+            // Tampilkan setiap kartu ulasan
+            reviewsData.forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                
+                const authorDisplay = review.photo_url
+                    ? `<div class="author-photo"><img src="${review.photo_url}" alt="${review.author}"></div>`
+                    : `<div class="author-initial" style="background-color: ${getAuthorColor(review.author)};">${review.author.charAt(0).toUpperCase()}</div>`;
+                
+                let mediaContent = '';
+                if (review.photo_url) { mediaContent += `<div class="review-media"><img src="${review.photo_url}" alt="Review Photo"></div>`; }
+                if (review.video_url) { mediaContent += `<div class="review-media"><video controls src="${review.video_url}"></video></div>`; }
+
+                card.innerHTML = `
+                    <div class="review-header">
+                        ${authorDisplay}
+                        <div class="author-details">
+                            <div class="name">${review.author}</div>
+                            <div class="date">${review.date}</div>
+                        </div>
+                        <div class="source-icon">${googleIconSmall}</div>
+                    </div>
+                    <div class="star-rating">${createStarRating(review.rating)}</div>
+                    <div class="review-text">${review.review.replace(/\n/g, '<br>')}</div>
+                    ${mediaContent}`;
+                
+                reviewsListContainer.appendChild(card);
+            });
+        }
+        
+        displayReviews();
+    });
+    </script>
+</body>
+</html>
